@@ -6,6 +6,12 @@ project=$1
 dbpassword=$2
 dbusername=$3
 
+add_lambda() {
+  cp lambda/{api_gateway.tf,s3.tf,lambda.tf} .
+  cat lambda/output.tf >> output.tf
+  cat lambda/variables.tf.tf >> variables.tf
+}
+
 connectdb() {
   psql -h $(terraform output -raw rds_hostname) \
     -p $(terraform output -raw rds_port) \
