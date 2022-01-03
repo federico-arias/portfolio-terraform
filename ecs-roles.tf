@@ -2,7 +2,7 @@
 # the ECS task definition. They allow the communication with ECR and CloudWatch.
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "ecsTaskRole"
+  name = "ecsTaskRole-${var.project}"
 
   assume_role_policy = <<EOF
 {
@@ -23,7 +23,7 @@ EOF
 
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole"
+  name = "ecsTaskExecutionRole-${var.project}"
 
   assume_role_policy = <<EOF
 {

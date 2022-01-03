@@ -9,14 +9,17 @@ module "vpc" {
   name            = var.project
   cidr            = "10.1.0.0/16"
   azs             = data.aws_availability_zones.available.names
-  public_subnets  = ["10.0.30.0/24", "10.0.31.0/24", "10.0.32.0/24"]
-  private_subnets = ["10.0.40.0/24", "10.0.41.0/24", "10.0.42.0/24"]
+  public_subnets  = ["10.1.30.0/24", "10.1.31.0/24", "10.1.32.0/24"]
+  private_subnets = ["10.1.40.0/24", "10.1.41.0/24", "10.1.42.0/24"]
 
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  enable_nat_gateway = true
   enable_vpn_gateway = true
+
+  enable_nat_gateway = true
+  single_nat_gateway = true
+  one_nat_gateway_per_az = false
 
   create_igw = true
   #create_database_internet_gateway_route = true

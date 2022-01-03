@@ -1,6 +1,6 @@
 # TODO
 resource "aws_secretsmanager_secret" "db_password" {
-  name = "POSTGRES_PWD"
+  name = "${var.project}-db-password"
 }
 
 resource "aws_secretsmanager_secret_version" "db_password" {

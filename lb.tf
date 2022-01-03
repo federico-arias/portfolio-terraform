@@ -46,7 +46,7 @@ resource "aws_lb_target_group" "frontend" {
   # See https://stackoverflow.com/a/60080801/1797161
   lifecycle {
     create_before_destroy = true
-    #ignore_changes        = [name]
+    ignore_changes        = [name]
   }
 }
 
@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "backend" {
   }
 
   lifecycle {
-    #create_before_destroy = true
-    #ignore_changes        = [name]
+    create_before_destroy = true
+    ignore_changes        = [name]
   }
 }

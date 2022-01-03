@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform"
+  bucket = "terraform-111"
   # Enable versioning so we can see the full revision history of our
   # state files
   versioning {
@@ -32,7 +32,7 @@ terraform {
 
 /*
   backend "s3" {
-    bucket = "terraform"
+    bucket = "terraform-111"
     key    = "testing" # var.project
     region = "us-east-2" # var.region
   }
