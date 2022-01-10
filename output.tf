@@ -6,7 +6,7 @@ output "rds_hostname" {
 output "postgres_url" {
   description = "connection string"
   value       = "postgres://${aws_db_instance.main.username}:@${aws_db_instance.main.address}:5432/postgres"
-  sensitive = true
+  sensitive   = true
 }
 
 

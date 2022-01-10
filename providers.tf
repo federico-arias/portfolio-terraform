@@ -30,7 +30,7 @@ terraform {
     }
   }
 
-/*
+  /*
   backend "s3" {
     bucket = "terraform-111"
     key    = "testing" # var.project

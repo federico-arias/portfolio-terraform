@@ -6,7 +6,7 @@ variable "project" {
 variable "api_path" {
   type        = string
   description = "API path"
-  default     = "/api"
+  default     = "/api/v1"
 }
 
 variable "environment" {
