@@ -50,6 +50,9 @@ connectdb() {
       -U $(terraform output -raw rds_username) postgres
 }
 
+bastion() {
+  ssh -i /home/federico/.ssh/aws_bastion ec2-user@$(terraform output -raw bastion_public_ip)
+}
 
 push_images() {
   ecr_repo=$(terraform output -raw ecr_repo_backend)
