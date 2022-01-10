@@ -45,3 +45,11 @@ resource "aws_key_pair" "bastion_key" {
 output "bastion_public_ip" {
   value = "${aws_instance.bastion.public_ip}"
 }
+
+module "bastion" {
+  source            = "github.com/jetbrains-infra/terraform-aws-bastion-host"
+  subnet_id         = module.vpc.public_subnets[0]
+  ssh_key           = "${var.project}-db-access-key"
+  internal_networks = ["10.0.10.0/24"]
+  project           = var.project
+}
