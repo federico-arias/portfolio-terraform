@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-111"
+  bucket = "${var.project}-terraform-state"
   # Enable versioning so we can see the full revision history of our
   # state files
   versioning {
@@ -34,7 +34,7 @@ terraform {
   backend "s3" {
     bucket = "terraform-111"
     key    = "testing" # var.project
-    region = "us-east-2" # var.region
+    region =  var.region
   }
 */
 
@@ -44,5 +44,5 @@ terraform {
 provider "aws" {
   region                  = var.region
   shared_credentials_file = "/home/federico/.aws/credentials"
-  profile                 = "komet"
+  profile                 = var.aws_profile
 }

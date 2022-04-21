@@ -1,0 +1,38 @@
+# make sure that AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are set in GitLab
+variables:
+  ECR_REGISTRY: __ecr_registry__
+  AWS_REGION: __aws_region__
+
+publish:
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
+  services:
+    - docker:dind
+  before_script:
+    - amazon-linux-extras install docker
+    - aws --version
+    - docker --version
+  script:
+    - |
+      aws ecr get-login-password \
+        --region ${AWS_REGION} | docker login --username AWS --password-stdin $ECR_REGISTRY
+    - docker build -t ${ECR_REGISTRY}:${CI_COMMIT_TAG} .
+    - docker push ${ECR_REGISTRY}:${CI_COMMIT_TAG}
+  only:
+    - tags
+
+#terraform_apply:
+#  image:
+#    name: hashicorp/terraform:latest
+#    entrypoint:
+#      - /usr/bin/env
+#      - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+#  before_script:
+#    - terraform init
+#  stage: iac_apply
+#  script:
+#    - terraform apply --auto-approve plan
+#  allow_failure: false
+#  only:
+#   - tags

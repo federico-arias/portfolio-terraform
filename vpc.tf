@@ -2,18 +2,24 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+resource "aws_eip" "nat" {
+  count = 1
+
+  vpc = true
+}
+
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.77.0"
 
   name            = var.project
-  cidr            = "10.1.0.0/16"
+  cidr            = "10.2.0.0/16"
   azs             = data.aws_availability_zones.available.names
-  public_subnets  = ["10.1.30.0/24", "10.1.31.0/24", "10.1.32.0/24"]
-  private_subnets = ["10.1.40.0/24", "10.1.41.0/24", "10.1.42.0/24"]
+  public_subnets  = ["10.2.30.0/24", "10.2.31.0/24", "10.2.32.0/24"]
+  private_subnets = ["10.2.40.0/24", "10.2.41.0/24", "10.2.42.0/24"]
 
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+  enable_dns_hostnames = false
+  enable_dns_support   = false
 
   enable_vpn_gateway = true
 
@@ -23,7 +29,8 @@ module "vpc" {
 
   create_igw = true
   #create_database_internet_gateway_route = true
-
+  reuse_nat_ips       = true                    # <= Skip creation of EIPs for the NAT Gateways
+  external_nat_ip_ids = "${aws_eip.nat.*.id}"   # <= IPs specified here as input to the module
 }
 
 module "app_security_group" {
