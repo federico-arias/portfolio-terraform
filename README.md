@@ -1,3 +1,9 @@
+# Introduction
+
+This creates a ECS cluster on Fargate with a backend on `/api` and a
+front end on `/app` using ELB. Additionaly, it creates an RDS Postgres
+database.
+
 # Usage
 
 ## Basic configuration parameters
@@ -23,7 +29,7 @@ $ bash scripts/create_aws_secret.sh <db_password> <jwt_secret>
 Finally, apply Terraform and get the data for you CI/CD system:
 
 ```bash
-$ terraform apply
+$ bash scripts/terraform_apply.sh
 ```
 
 This is the data you'll need:
@@ -32,3 +38,4 @@ This is the data you'll need:
 * `terraform output -raw ecr_repo_frontend` - to get the ECR registry.
 * `terraform output -raw aws_id` - to get the ECR registry.
 * `terraform output -raw aws_secret` - to get the ECR registry.
+* `terraform output -raw region` - to get the AWS region.

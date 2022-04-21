@@ -8,7 +8,7 @@ for registry in ${ecr_frontend_registry} ${ecr_backend_registry}
 do
   t=$(mktemp)
   cp .gitlab-ci.yml $t
-  sed -i $(printf 's#__ecr_registry__#%s#g' ${ecr_registry}) $t
+  sed -i $(printf 's#__ecr_registry__#%s#g' ${registry}) $t
   sed -i $(printf 's#__aws_region__#%s#g' ${region}) $t
   cp $t "gitlab-ci${registry#*/}.yml"
 done
