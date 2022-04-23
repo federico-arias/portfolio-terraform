@@ -10,11 +10,6 @@ bastion() {
 
 # tunnels to database
 create_tunnel() {
-  DB_PASSWORD=$(aws secretsmanager \
-    get-secret-value \
-    --profile ${aws_profile} \
-    --region ${region} \
-    --secret-id "${project}-db_password" | jq --raw-output '.SecretString')
   DB_PORT=1414
 
   ssh -i /home/federico/.ssh/aws_bastion ec2-user@$(terraform output -raw bastion_public_ip) \
@@ -23,6 +18,6 @@ create_tunnel() {
     --host=localhost \
     --port=$DB_PORT \
     --username=panda \
-    --password=$DB_PASSWORD
+    --password
 }
 bastion
