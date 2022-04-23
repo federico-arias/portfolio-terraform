@@ -11,9 +11,9 @@ resource "aws_instance" "bastion" {
   connection {
       type        = "ssh"
       host        = self.public_ip
-      user        = "ubuntu"
+      user        = "ubuntu" # ec2-user
       private_key = file("/home/federico/.ssh/aws_bastion")
-      timeout     = "4m"
+      timeout     = "1m"
    }
 */
 }

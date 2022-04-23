@@ -42,11 +42,11 @@ variable "db_password" {
 variable "frontend_tag" {
   description = "Front-end repository tag"
   type        = string
-  default = "1.0.0"
+  default = "v1.0.1"
 }
 
 variable "backend_tag" {
   description = "Back-end repository tag"
   type        = string
-  default = "1.0.0"
+  default = "v1.0.10"
 }

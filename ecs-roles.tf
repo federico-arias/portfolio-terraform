@@ -47,7 +47,7 @@ EOF
 # See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html
 resource "aws_iam_policy" "ecr" {
   name        = "${var.project}-task-policy-ecr"
-  description = "Policy that allows access to ECR"
+  description = "Policy that allows access to ECR. Additionaly, it allows acces to Systems Manager"
 
   policy = <<EOF
 {
@@ -62,7 +62,10 @@ resource "aws_iam_policy" "ecr" {
         "ecr:BatchGetImage",
         "logs:CreateLogStream",
         "logs:CreateLogGroup",
-        "logs:PutLogEvents"
+        "logs:PutLogEvents",
+        "ssm:GetParameters",
+        "secretsmanager:GetSecretValue",
+        "kms:Decrypt"
       ],
       "Resource": "*"
     }

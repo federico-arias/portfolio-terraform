@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "backend" {
           "value" = "80"
         },
         {
-          "name"  = "POSTGRES_DSN"
+          "name"  = "DATABASE_URL"
           "value" = "postgres://${aws_db_instance.main.username}:${var.db_password}@${aws_db_instance.main.address}:5432/postgres"
         },
         {

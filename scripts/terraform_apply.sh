@@ -1,4 +1,4 @@
-terraform refresh
+terraform refresh -var="db_password=itdoesntmatter" \
 
 account_id=$(terraform output -raw account_id)
 region=$(terraform output -raw region)
@@ -17,11 +17,14 @@ apply() {
     --region ${region} \
     --secret-id "${project}-db_password" | jq --raw-output '.SecretString')
 
+
   terraform apply \
     -var="project=${project}" \
     -var="db_password=${db_password}" \
     -var="backend_tag=${backend_tag}" \
-    -var="frontend_tag=${frontend_tag}"
+    -var="frontend_tag=${frontend_tag}" \
+    -replace="aws_ecs_task_definition.backend" \
+    -replace="aws_ecs_task_definition.frontend"
 }
 
 apply

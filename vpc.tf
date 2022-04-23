@@ -18,8 +18,8 @@ module "vpc" {
   public_subnets  = ["10.2.30.0/24", "10.2.31.0/24", "10.2.32.0/24"]
   private_subnets = ["10.2.40.0/24", "10.2.41.0/24", "10.2.42.0/24"]
 
-  enable_dns_hostnames = false
-  enable_dns_support   = false
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
   enable_vpn_gateway = true
 

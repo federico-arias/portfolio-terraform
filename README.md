@@ -26,6 +26,14 @@ Then, create the following secrets in AWS Secrets Manager:
 $ bash scripts/create_aws_secret.sh <db_password> <jwt_secret>
 ```
 
+Then, create a ssh key-pair to access the bastion host:
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
+```
+
+## Terraform apply
+
 Finally, apply Terraform and get the data for you CI/CD system:
 
 ```bash
