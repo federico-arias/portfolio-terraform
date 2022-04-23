@@ -30,13 +30,12 @@ terraform {
     }
   }
 
-  /*
   backend "s3" {
-    bucket = "terraform-111"
-    key    = "testing" # var.project
-    region =  var.region
+    bucket = "komettest-terraform-state" # "${var.project}-terraform-state"
+    key    = "terraform.tfstate"
+    region =  "us-east-2" # update with var.region
+    profile = "komet" # update with var.aws_profile
   }
-*/
 
   required_version = "~> 1.0"
 }
