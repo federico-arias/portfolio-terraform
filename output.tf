@@ -25,12 +25,20 @@ output "ecr_repo_backend" {
   value = aws_ecr_repository.backend.repository_url
 }
 
+output "ecr_repo_landing" {
+  value = aws_ecr_repository.landing.repository_url
+}
+
 output "frontend_tag" {
   value = var.frontend_tag
 }
 
 output "backend_tag" {
   value = var.backend_tag
+}
+
+output "landing_tag" {
+  value = var.landing_tag
 }
 
 output "region" {

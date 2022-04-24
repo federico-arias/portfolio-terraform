@@ -1,6 +1,7 @@
 locals {
   backend_container_name  = "${var.project}-backend-container"
   frontend_container_name = "${var.project}-frontend-container"
+  landing_container_name = "${var.project}-landing-container"
 }
 
 resource "aws_ecs_cluster" "main" {

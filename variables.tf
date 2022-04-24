@@ -50,3 +50,9 @@ variable "backend_tag" {
   type        = string
   default = "v1.0.10"
 }
+
+variable "landing_tag" {
+  description = "Landing repository tag"
+  type        = string
+  default = "v1.0.2"
+}

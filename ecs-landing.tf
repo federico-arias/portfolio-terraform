@@ -1,4 +1,3 @@
-/*
 resource "aws_ecs_task_definition" "landing" {
   family                   = "${var.project}-landing-family"
   network_mode             = "awsvpc"
@@ -56,11 +55,10 @@ resource "aws_ecs_service" "landing" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.frontend.id
-    container_name   = local.frontend_container_name
+    target_group_arn = aws_lb_target_group.landing.id
+    container_name   = local.landing_container_name
     container_port   = 80
   }
 
   depends_on = [aws_lb_listener.loadbalancer_listener, module.app_security_group]
 }
-*/
