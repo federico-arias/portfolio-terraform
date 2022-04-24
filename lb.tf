@@ -44,7 +44,7 @@ resource "aws_lb_listener_rule" "frontend" {
 
   condition {
     path_pattern {
-      values = ["/app"]
+      values = ["/app/*"]
     }
   }
 }
