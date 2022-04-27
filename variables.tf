@@ -48,7 +48,7 @@ variable "frontend_tag" {
 variable "backend_tag" {
   description = "Back-end repository tag"
   type        = string
-  default = "v1.0.10"
+  default = "v1.0.11"
 }
 
 variable "landing_tag" {
