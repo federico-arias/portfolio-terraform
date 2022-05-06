@@ -28,6 +28,10 @@ resource "aws_ecs_task_definition" "backend" {
         {
           "name"  = "ROUTER_PATH"
           "value" = var.api_path
+        },
+        {
+          "name"  = "VERSION"
+          "value" = var.backend_tag
         }
       ]
       "logConfiguration" = {

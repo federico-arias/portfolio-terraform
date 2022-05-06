@@ -44,6 +44,18 @@ This is the data you'll need:
 
 * `terraform output -raw ecr_repo_backend` - to get the ECR registry.
 * `terraform output -raw ecr_repo_frontend` - to get the ECR registry.
-* `terraform output -raw aws_id` - to get the ECR registry.
-* `terraform output -raw aws_secret` - to get the ECR registry.
+* `terraform output -raw aws_id` - to get the AWS ID.
+* `terraform output -raw aws_secret` - to get the AWS Secret.
 * `terraform output -raw region` - to get the AWS region.
+
+# TODO
+
+* Create lambda to execute migration, set DATABASE_URL and execute
+
+aws lambda invoke \
+    --function-name my-function \
+    --invocation-type Event \
+    --payload '{ "name": "Bob" }' \
+    response.json
+
+https://github.com/prisma/prisma/issues/2980#issuecomment-665691866

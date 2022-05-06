@@ -1,4 +1,5 @@
 #!/bin/bash
+# builds a .gitlab-ci.yaml file for every ECS service
 
 ecr_frontend_registry=$(terraform output -raw ecr_repo_frontend)
 ecr_backend_registry=$(terraform output -raw ecr_repo_backend)

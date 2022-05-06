@@ -17,7 +17,6 @@ apply() {
     --region ${region} \
     --secret-id "${project}-db_password" | jq --raw-output '.SecretString')
 
-
   terraform apply \
     -var="project=${project}" \
     -var="db_password=${db_password}" \
