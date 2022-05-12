@@ -39,7 +39,7 @@ create_tunnel() {
 	lsof -ti "tcp:${DB_PORT}" | xargs kill -9
 
 	ssh -i $SSH_IDENTITY_FILE ec2-user@${BASTION_HOSTNAME} \
-		-N -f -L $DB_PORT:${DB_HOSTNAME}:5432 &
+		-N -f -L $DB_PORT:${DB_HOSTNAME}:5432
 	SSH_PID=$!
 
 	echo "Bastion connected and listening on port ${DB_PORT}. PID: $SSH_PID"

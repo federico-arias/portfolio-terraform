@@ -74,3 +74,7 @@ output "account_id" {
   value = local.account_id
 }
 /* end of hack */
+
+output "api_gateway_url" {
+  value = "https://${aws_apigatewayv2_api.main_gateway.id}.execute-api.${var.region}.amazonaws.com/${var.project}-api-gateway-stage"
+}

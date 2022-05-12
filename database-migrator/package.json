@@ -2,6 +2,7 @@
   "name": "test-lambda",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "hello.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "pg": "^8.7.1"
+    "child_process": "^1.0.2",
+    "execa": "^6.1.0",
+    "prisma": "^3.14.0"
   }
 }

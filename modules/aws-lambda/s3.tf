@@ -1,6 +1,6 @@
 resource "random_pet" "lambda_bucket_name" {
-  prefix = "learn-terraform-functions"
-  length = 4
+  prefix = "${var.service_name}-lambda-bucket"
+  length = 1
 }
 
 resource "aws_s3_bucket" "lambda_bucket" {
@@ -10,18 +10,17 @@ resource "aws_s3_bucket" "lambda_bucket" {
   force_destroy = true
 }
 
-# zips a dir
 data "archive_file" "lambda_source" {
   type = "zip"
 
-  source_dir  = "${path.module}/fn"
-  output_path = "${path.module}/hello-world.zip"
+  source_dir  = "${var.source_dir}"
+  output_path = "${var.source_dir}.zip"
 }
 
-resource "aws_s3_bucket_object" "lambda_hello_world" {
+resource "aws_s3_bucket_object" "lambda_bucket_object" {
   bucket = aws_s3_bucket.lambda_bucket.id
 
-  key    = "hello-world.zip"
+  key    = "${var.service_name}.zip"
   source = data.archive_file.lambda_source.output_path
 
   etag = filemd5(data.archive_file.lambda_source.output_path)
