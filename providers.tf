@@ -28,13 +28,17 @@ terraform {
       source  = "hashicorp/archive"
       version = "~> 2.2.0"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.18.0"
+    }
   }
 
   backend "s3" {
-    bucket = "komettest-terraform-state" # "${var.project}-terraform-state"
-    key    = "terraform.tfstate"
-    region =  "us-east-2" # update with var.region
-    profile = "komet" # update with var.aws_profile
+    bucket  = "komettest-terraform-state" # "${var.project}-terraform-state"
+    key     = "terraform.tfstate"
+    region  = "us-east-2" # update with var.region
+    profile = "komet"     # update with var.aws_profile
   }
 
   required_version = "~> 1.0"
@@ -44,4 +48,9 @@ provider "aws" {
   region                  = var.region
   shared_credentials_file = "/home/federico/.aws/credentials"
   profile                 = var.aws_profile
+}
+
+provider "cloudflare" {
+  email     = "contacto@komet.social"
+  api_token = "4XOBBHEDZC-mSFyX2jqT5fEQUI4BEdoY1lDdOCjk"
 }

@@ -4,6 +4,7 @@ resource "aws_lb" "loadbalancer" {
   load_balancer_type = "application"
   subnets            = module.vpc.public_subnets
   security_groups    = [module.lb_security_group.this_security_group_id]
+
 }
 
 resource "aws_lb_listener" "loadbalancer_listener" {

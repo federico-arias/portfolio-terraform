@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "backend" {
-  family                   = var.service_name
+  family                   = var.name
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -10,10 +10,10 @@ resource "aws_ecs_task_definition" "backend" {
 
   container_definitions = jsonencode([
     {
-      "image"       = "${aws_ecr_repository.repository.repository_url}:${var.tag}"
+      "image"       = "${aws_ecr_repository.main.repository_url}:${var.service_tag}"
       "cpu"         = 1024
       "memory"      = 2048
-      "name"        = local.backend_container_name
+      "name"        = "${var.name}-container"
       "networkMode" = "awsvpc"
       "environment" = var.environment_variables
       "logConfiguration" = {
@@ -22,7 +22,7 @@ resource "aws_ecs_task_definition" "backend" {
           "awslogs-group"         = var.project
           "awslogs-region"        = var.region
           "awslogs-create-group"  = "true"
-          "awslogs-stream-prefix" = local.backend_container_name
+          "awslogs-stream-prefix" = "${var.name}-container"
         }
       }
       "portMappings" = [
@@ -34,8 +34,8 @@ resource "aws_ecs_task_definition" "backend" {
   }])
 }
 
-resource "aws_ecs_service" "backend" {
-  name                              = "${var.project}-backend"
+resource "aws_ecs_service" "main" {
+  name                              = "${var.name}-service"
   cluster                           = var.ecs_cluster
   task_definition                   = var.task_definition_arn
   desired_count                     = 1
@@ -50,7 +50,7 @@ resource "aws_ecs_service" "backend" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.id
-    container_name   = local.backend_container_name
+    container_name   = "${var.name}-container"
     container_port   = 80
   }
 
@@ -59,5 +59,6 @@ resource "aws_ecs_service" "backend" {
     rollback = false
   }
 
+  # change this
   depends_on = [aws_lb_listener.loadbalancer_listener, module.app_security_group]
 }

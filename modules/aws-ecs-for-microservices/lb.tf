@@ -1,4 +1,4 @@
-# ECS services point to target groups and a target group is refereced by a listener rule
+# ECS services point to target groups and a target group is referenced by a listener rule
 
 resource "aws_lb_listener_rule" "listener_rule" {
   # listener_arn = aws_lb_listener.loadbalancer_listener.arn
@@ -19,7 +19,7 @@ resource "aws_lb_listener_rule" "listener_rule" {
 
 
 resource "aws_lb_target_group" "target_group" {
-  name        = "${var.service_name}"
+  name        = "${var.name}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -28,7 +28,7 @@ resource "aws_lb_target_group" "target_group" {
   health_check {
     port     = 80
     protocol = "HTTP"
-    path     = "/"
+    path     = var.healthcheck_path
   }
 
   # See https://stackoverflow.com/a/60080801/1797161

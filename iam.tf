@@ -13,6 +13,6 @@ resource "aws_iam_user_policy_attachment" "ecr_pusher" {
 }
 
 resource "aws_iam_access_key" "ecr_pusher" {
-  user    = aws_iam_user.ecr_pusher.name
+  user = aws_iam_user.ecr_pusher.name
   #  pgp_key = "keybase:some_person_that_exists"
 }

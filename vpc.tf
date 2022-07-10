@@ -29,8 +29,8 @@ module "vpc" {
 
   create_igw = true
   #create_database_internet_gateway_route = true
-  reuse_nat_ips       = true                    # <= Skip creation of EIPs for the NAT Gateways
-  external_nat_ip_ids = "${aws_eip.nat.*.id}"   # <= IPs specified here as input to the module
+  reuse_nat_ips       = true             # <= Skip creation of EIPs for the NAT Gateways
+  external_nat_ip_ids = aws_eip.nat.*.id # <= IPs specified here as input to the module
 }
 
 module "app_security_group" {

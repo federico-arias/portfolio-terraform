@@ -5,9 +5,9 @@ resource "aws_instance" "bastion" {
   vpc_security_group_ids      = [aws_security_group.bastion-sg.id]
   subnet_id                   = module.vpc.public_subnets[0]
 
-  key_name= "${var.project}-db-access-key"
+  key_name = "${var.project}-db-access-key"
 
-/*
+  /*
   connection {
       type        = "ssh"
       host        = self.public_ip
@@ -43,5 +43,5 @@ resource "aws_key_pair" "bastion_key" {
 }
 
 output "bastion_public_ip" {
-  value = "${aws_instance.bastion.public_ip}"
+  value = aws_instance.bastion.public_ip
 }

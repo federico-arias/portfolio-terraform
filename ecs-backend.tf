@@ -32,6 +32,10 @@ resource "aws_ecs_task_definition" "backend" {
         {
           "name"  = "VERSION"
           "value" = var.backend_tag
+        },
+        {
+          "name"  = "BASE_URL"
+          "value" = var.backend_tag
         }
       ]
       "logConfiguration" = {

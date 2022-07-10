@@ -13,8 +13,12 @@ output "postgres_url" {
   sensitive   = true
 }
 
+locals {
+  lb_url = "https://${aws_lb.loadbalancer.dns_name}"
+}
+
 output "alb_url" {
-  value = "http://${aws_lb.loadbalancer.dns_name}"
+  value = local.lb_url
 }
 
 output "ecr_repo_frontend" {
@@ -54,13 +58,13 @@ output "aws_profile" {
 }
 
 output "aws_secret" {
-  value = aws_iam_access_key.ecr_pusher.id
-  sensitive   = true
+  value     = aws_iam_access_key.ecr_pusher.id
+  sensitive = true
 }
 
 output "aws_id" {
-  value = aws_iam_access_key.ecr_pusher.secret
-  sensitive   = true
+  value     = aws_iam_access_key.ecr_pusher.secret
+  sensitive = true
 }
 
 /* hack to get aws account id */
@@ -74,6 +78,7 @@ output "account_id" {
   value = local.account_id
 }
 /* end of hack */
+
 
 output "api_gateway_url" {
   value = "https://${aws_apigatewayv2_api.main_gateway.id}.execute-api.${var.region}.amazonaws.com/${var.project}-api-gateway-stage"

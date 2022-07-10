@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "repository" {
-  name                 = ${var.service_name}
+resource "aws_ecr_repository" "main" {
+  name                 = ${var.name}
   image_tag_mutability = "IMMUTABLE"
 }
