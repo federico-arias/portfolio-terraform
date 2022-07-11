@@ -9,7 +9,7 @@ resource "aws_lb" "loadbalancer" {
 
 resource "aws_lb_listener" "loadbalancer_listener" {
   load_balancer_arn = aws_lb.loadbalancer.arn
-  port              = "80"
+  port              = "443"
   protocol          = "HTTPS"
   certificate_arn   = aws_acm_certificate.cert.arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
@@ -60,7 +60,7 @@ resource "aws_lb_listener_rule" "frontend" {
 resource "aws_lb_target_group" "frontend" {
   name        = "${var.project}-frontend-tg"
   port        = 80
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
 
@@ -80,7 +80,7 @@ resource "aws_lb_target_group" "frontend" {
 resource "aws_lb_target_group" "backend" {
   name        = "${var.project}-backend-tg"
   port        = 80
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
 
@@ -102,7 +102,7 @@ resource "aws_lb_target_group" "backend" {
 resource "aws_lb_target_group" "landing" {
   name        = "${var.project}-landing-tg"
   port        = 80
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
   target_type = "ip"
 

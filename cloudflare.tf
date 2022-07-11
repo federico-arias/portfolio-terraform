@@ -1,10 +1,23 @@
 // terraform import cloudflare_record.test 7577fcd5eb9a1ca266cf9eaaf5f59c8a/6e5eb7f4325cf3e8c87e8ce899acd2be
-resource "cloudflare_record" "test" {
-  name    = "komet.social"
-  type    = "A"
-  value   = "18.116.113.213"
-  zone_id = "7577fcd5eb9a1ca266cf9eaaf5f59c8a"
+resource "cloudflare_record" "www" {
+  name            = "www"
+  type            = "CNAME"
+  value           = aws_lb.loadbalancer.dns_name
+  ttl             = 3600
+  zone_id         = "7577fcd5eb9a1ca266cf9eaaf5f59c8a"
+  allow_overwrite = true
 }
+
+resource "cloudflare_record" "main" {
+  name            = "@"
+  type            = "CNAME"
+  value           = aws_lb.loadbalancer.dns_name
+  ttl             = 3600
+  zone_id         = "7577fcd5eb9a1ca266cf9eaaf5f59c8a"
+  allow_overwrite = true
+}
+
+
 
 // https://github.com/cloudflare/terraform-provider-cloudflare/issues/154
 resource "cloudflare_record" "validation" {
