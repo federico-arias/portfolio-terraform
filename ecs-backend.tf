@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "backend" {
         },
         {
           "name"  = "BASE_URL"
-          "value" = var.backend_tag
+          "value" = "https://komet.social"
         }
       ]
       "logConfiguration" = {
