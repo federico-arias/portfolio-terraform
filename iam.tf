@@ -3,7 +3,8 @@ resource "aws_iam_user" "ecr_pusher" {
   path = "/system/"
 
   tags = {
-    tag-key = "tag-value"
+    tag-key     = "tag-value"
+    Environment = var.environment
   }
 }
 

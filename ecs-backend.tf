@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "backend" {
         },
         {
           "name"  = "DATABASE_URL"
-          "value" = "postgres://${aws_db_instance.main.username}:${var.db_password}@${aws_db_instance.main.address}:5432/postgres"
+          "value" = local.database_connection_string
         },
         {
           "name"  = "ROUTER_PATH"

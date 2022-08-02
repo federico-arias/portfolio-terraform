@@ -2,3 +2,4 @@ lambda/fn/node_modules
 .terraform
 database-migrator
 database-migrator.zip
+terragrunt/production/.terragrunt-cache

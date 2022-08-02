@@ -1,8 +1,19 @@
+locals {
+  database_connection_string = "postgres://${aws_db_instance.main.username}:${urlencode(random_password.database.result)}@${aws_db_instance.main.address}:5432/postgres"
+}
+
 resource "aws_db_subnet_group" "main_db" {
   name       = "${var.project}-db-subnet"
   subnet_ids = module.vpc.private_subnets
 
 }
+
+resource "random_password" "database" {
+  length           = 16
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?"
+}
+
 
 resource "aws_security_group" "main_db" {
   name   = var.project
@@ -41,7 +52,7 @@ resource "aws_db_instance" "main" {
   engine                 = "postgres"
   engine_version         = "12.8"
   username               = var.db_username
-  password               = var.db_password
+  password               = random_password.database.result
   db_subnet_group_name   = aws_db_subnet_group.main_db.name
   vpc_security_group_ids = [aws_security_group.main_db.id]
   parameter_group_name   = aws_db_parameter_group.main_db.name

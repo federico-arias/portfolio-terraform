@@ -1,15 +1,12 @@
 resource "aws_route53_zone" "main" {
-  name = "komet.social"
-}
-
-resource "aws_route53_zone" "dev" {
-  name = "dev.komet.social"
+  name = var.domain
 
   tags = {
-    Environment = "dev"
+    Environment = var.environment
   }
 }
 
+/*
 resource "aws_route53_record" "dev-ns" {
   zone_id = aws_route53_zone.main.zone_id
   name    = "dev.komet.social"
@@ -17,3 +14,4 @@ resource "aws_route53_record" "dev-ns" {
   ttl     = "30"
   records = aws_route53_zone.dev.name_servers
 }
+*/

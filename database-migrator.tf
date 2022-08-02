@@ -10,7 +10,7 @@ module "migrator" {
   timeout            = 45
 
   env_variables = {
-    DATABASE_URL = "postgres://${aws_db_instance.main.username}:${var.db_password}@${aws_db_instance.main.address}:5432/postgres"
+    DATABASE_URL = local.database_connection_string
   }
 
 

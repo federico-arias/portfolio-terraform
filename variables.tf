@@ -1,13 +1,16 @@
 variable "project" {
   type        = string
   description = "Project Name"
-  default     = "komettest"
+}
+
+variable "domain" {
+  type        = string
+  description = "DNS Domain"
 }
 
 variable "aws_profile" {
   type        = string
   description = "AWS profile to use for credentials"
-  default     = "komet"
 }
 
 variable "api_path" {
@@ -22,8 +25,7 @@ variable "environment" {
 }
 
 variable "region" {
-  default = "us-east-2"
-  type    = string
+  type = string
 }
 
 variable "db_username" {
@@ -32,27 +34,17 @@ variable "db_username" {
   default     = "panda"
 }
 
-
-variable "db_password" {
-  description = "RDS user password"
-  type        = string
-  sensitive   = true
-}
-
 variable "frontend_tag" {
   description = "Front-end repository tag"
   type        = string
-  default     = "v1.9.1"
 }
 
 variable "backend_tag" {
   description = "Back-end repository tag"
   type        = string
-  default     = "v1.9.1"
 }
 
 variable "landing_tag" {
   description = "Landing repository tag"
   type        = string
-  default     = "v1.0.2"
 }
