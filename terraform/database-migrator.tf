@@ -1,5 +1,5 @@
 module "migrator" {
-  source = "./modules/aws-lambda"
+  source = "github.com/federico-arias/terraform-aws-lambda"
 
   service_name       = "${var.project}-migrator"
   source_dir         = "/home/federico/Proyectos/komet/infrastructure/database-migrator"
