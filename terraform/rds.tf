@@ -8,6 +8,14 @@ resource "aws_db_subnet_group" "main_db" {
 
 }
 
+resource "random_pet" "database" {
+  #keepers = {
+  # Generate a new pet name each time we switch to a new AMI id
+  # ami_id = var.ami_id
+  #}
+  separator = "_"
+}
+
 resource "random_password" "database" {
   length           = 16
   special          = true
@@ -51,7 +59,7 @@ resource "aws_db_instance" "main" {
   allocated_storage      = 5
   engine                 = "postgres"
   engine_version         = "12.8"
-  username               = var.db_username
+  username               = random_pet.database.id
   password               = random_password.database.result
   db_subnet_group_name   = aws_db_subnet_group.main_db.name
   vpc_security_group_ids = [aws_security_group.main_db.id]

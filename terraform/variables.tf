@@ -8,6 +8,10 @@ variable "domain" {
   description = "DNS Domain"
 }
 
+variable "subdomain" {
+  type = string
+}
+
 variable "aws_profile" {
   type        = string
   description = "AWS profile to use for credentials"
@@ -26,12 +30,6 @@ variable "environment" {
 
 variable "region" {
   type = string
-}
-
-variable "db_username" {
-  description = "RDS user name"
-  type        = string
-  default     = "panda"
 }
 
 variable "frontend_tag" {
