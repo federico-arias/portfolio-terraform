@@ -2,7 +2,7 @@
 # the ECS task definition. They allow the communication with ECR and CloudWatch.
 
 resource "aws_iam_role" "ecs_task_role" {
-  name = "ecsTaskRole-${var.project}"
+  name = "ecsTaskRole-${var.project}-${var.environment}"
 
   assume_role_policy = <<EOF
 {
@@ -23,7 +23,7 @@ EOF
 
 
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "ecsTaskExecutionRole-${var.project}"
+  name = "ecsTaskExecutionRole-${var.project}-${var.environment}"
 
   assume_role_policy = <<EOF
 {
@@ -46,7 +46,7 @@ EOF
 
 # See https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html
 resource "aws_iam_policy" "ecr" {
-  name        = "${var.project}-task-policy-ecr"
+  name        = "${var.project}-${var.environment}-task-policy-ecr"
   description = "Policy that allows access to ECR. Additionaly, it allows acces to Systems Manager"
 
   policy = <<EOF

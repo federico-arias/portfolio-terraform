@@ -2,11 +2,13 @@ data "aws_availability_zones" "available" {
   state = "available"
 }
 
+/*
 resource "aws_eip" "nat" {
   count = 1
 
   vpc = true
 }
+*/
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
@@ -23,14 +25,14 @@ module "vpc" {
 
   enable_vpn_gateway = true
 
-  enable_nat_gateway     = true
-  single_nat_gateway     = true
+  enable_nat_gateway = false
+  #single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
   create_igw = true
   #create_database_internet_gateway_route = true
-  reuse_nat_ips       = true             # <= Skip creation of EIPs for the NAT Gateways
-  external_nat_ip_ids = aws_eip.nat.*.id # <= IPs specified here as input to the module
+  #reuse_nat_ips       = true             # <= Skip creation of EIPs for the NAT Gateways
+  #external_nat_ip_ids = aws_eip.nat.*.id # <= IPs specified here as input to the module
 }
 
 module "app_security_group" {

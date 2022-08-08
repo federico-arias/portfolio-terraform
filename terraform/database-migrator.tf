@@ -1,7 +1,7 @@
 module "migrator" {
   source = "github.com/federico-arias/terraform-aws-lambda"
 
-  service_name       = "${var.project}-migrator"
+  service_name       = "${var.project}-${var.environment}-migrator"
   source_dir         = "/home/federico/Proyectos/komet/infrastructure/database-migrator"
   api_id             = aws_apigatewayv2_api.main_gateway.id
   api_execution_arn  = aws_apigatewayv2_api.main_gateway.execution_arn

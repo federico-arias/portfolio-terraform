@@ -1,6 +1,6 @@
 
 resource "aws_ecs_task_definition" "backend" {
-  family                   = "${var.project}-backend-family"
+  family                   = "${var.project}-${var.environment}-backend-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "backend" {
         },
         {
           "name"  = "BASE_URL"
-          "value" = "https://komet.social"
+          "value" = "https://${var.subdomain}.${var.domain}"
         }
       ]
       "logConfiguration" = {
@@ -54,10 +54,17 @@ resource "aws_ecs_task_definition" "backend" {
         }
       ]
   }])
+
+  tags = merge(
+    local.default_tags,
+    {
+      Status = "to_deprecate"
+    },
+  )
 }
 
 resource "aws_ecs_service" "backend" {
-  name                              = "${var.project}-backend"
+  name                              = "${var.project}-${var.environment}-backend"
   cluster                           = aws_ecs_cluster.main.id
   task_definition                   = aws_ecs_task_definition.backend.arn
   desired_count                     = 1

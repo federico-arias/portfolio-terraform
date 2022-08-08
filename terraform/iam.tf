@@ -1,11 +1,7 @@
 resource "aws_iam_user" "ecr_pusher" {
-  name = "${var.project}-ecr-pusher"
+  name = "${var.project}-${var.environment}-ecr-pusher"
   path = "/system/"
 
-  tags = {
-    tag-key     = "tag-value"
-    Environment = var.environment
-  }
 }
 
 resource "aws_iam_user_policy_attachment" "ecr_pusher" {

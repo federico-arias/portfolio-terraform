@@ -24,7 +24,6 @@ variable "api_path" {
 }
 
 variable "environment" {
-  default = "production"
   type    = string
 }
 
@@ -45,4 +44,11 @@ variable "backend_tag" {
 variable "landing_tag" {
   description = "Landing repository tag"
   type        = string
+}
+
+locals {
+  default_tags = {
+    Environment = var.environment
+    Project = var.project
+  }
 }

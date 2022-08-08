@@ -1,3 +1,4 @@
+/*
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "${var.project}-terraform-state"
   # Enable versioning so we can see the full revision history of our
@@ -14,6 +15,7 @@ resource "aws_s3_bucket" "terraform_state" {
     }
   }
 }
+*/
 
 terraform {
   required_providers {
@@ -49,15 +51,6 @@ terraform {
     }
   }
 
-  /*
-  backend "s3" {
-    bucket  = "komettest-terraform-state" # "${var.project}-terraform-state"
-    key     = "terraform.tfstate"
-    region  = "us-east-2" # update with var.region
-    profile = "komet"     # update with var.aws_profile
-  }
-  */
-
   required_version = "~> 1.0"
 }
 
@@ -65,6 +58,10 @@ provider "aws" {
   region                  = var.region
   shared_credentials_file = "/home/federico/.aws/credentials"
   profile                 = var.aws_profile
+
+  default_tags {
+    tags = local.default_tags
+  }
 }
 
 provider "cloudflare" {

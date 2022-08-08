@@ -15,21 +15,16 @@ Modify the following variables in `variables.tf`:
 * `api_path`: The path of the main API.
 * `aws_profile`: The name of the aws profile to use.
 
-## Secrets management
-
-Then, create the following secrets in AWS Secrets Manager:
-
-* `db_password`: The PostgreSQL database password.
-* `jwt_secret`: JWT secret.
-
-```bash
-$ bash scripts/create_aws_secret.sh <db_password> <jwt_secret>
-```
-
-Then, create a ssh key-pair to access the bastion host:
+Create a ssh key-pair to access the bastion host:
 
 ```bash
 ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
+```
+
+## Import shared resources
+
+```bash
+terragrunt import aws_ecr_repository.backend <name>
 ```
 
 ## Terraform apply
@@ -37,25 +32,19 @@ ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
 Finally, apply Terraform and get the data for you CI/CD system:
 
 ```bash
-$ bash scripts/terraform_apply.sh
+$ cd terragrunt/production && terragrunt apply
 ```
-
-This is the data you'll need:
-
-* `terraform output -raw ecr_repo_backend` - to get the ECR registry.
-* `terraform output -raw ecr_repo_frontend` - to get the ECR registry.
-* `terraform output -raw aws_id` - to get the AWS ID.
-* `terraform output -raw aws_secret` - to get the AWS Secret.
-* `terraform output -raw region` - to get the AWS region.
 
 # TODO
 
 * Create lambda to execute migration, set DATABASE_URL and execute
 
+```bash
 aws lambda invoke \
     --function-name my-function \
     --invocation-type Event \
     --payload '{ "name": "Bob" }' \
     response.json
+```
 
 https://github.com/prisma/prisma/issues/2980#issuecomment-665691866

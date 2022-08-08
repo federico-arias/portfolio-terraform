@@ -1,9 +1,6 @@
 resource "aws_route53_zone" "main" {
   name = var.domain
 
-  tags = {
-    Environment = var.environment
-  }
 }
 
 /*

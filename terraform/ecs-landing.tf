@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "landing" {
-  family                   = "${var.project}-landing-family"
+  family                   = "${var.project}-${var.environment}-landing-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "landing" {
 }
 
 resource "aws_ecs_service" "landing" {
-  name            = "${var.project}-landing"
+  name            = "${var.project}-${var.environment}-landing"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.landing.arn
   desired_count   = 1

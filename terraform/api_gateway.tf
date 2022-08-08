@@ -1,12 +1,12 @@
 resource "aws_apigatewayv2_api" "main_gateway" {
-  name          = "${var.project}-api-gateway"
+  name          = "${var.project}-${var.environment}-api-gateway"
   protocol_type = "HTTP"
 }
 
 resource "aws_apigatewayv2_stage" "main_gateway_stage" {
   api_id = aws_apigatewayv2_api.main_gateway.id
 
-  name        = "${var.project}-api-gateway-stage"
+  name        = "${var.project}-${var.environment}-api-gateway-stage"
   auto_deploy = true
 
   access_log_settings {

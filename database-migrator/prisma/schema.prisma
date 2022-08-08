@@ -1,0 +1,187 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Example {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+  address   String
+}
+
+model UserSubscription {
+  id             Int    @id @default(autoincrement())
+  userUid        String
+  subscriptionId String
+}
+
+model Benchmark {
+  id          Int            @id @default(autoincrement())
+  benchmark   String
+  dataSources Json?          @db.Json
+  type        DataSourceType
+  Report      Report[]
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId      Int
+}
+
+model InfluencerFacts {
+  id             Int        @id @default(autoincrement())
+  commentsAvg    Float?
+  followersCount Int?
+  likesAvg       Float?
+  obtainedAt     DateTime?  @default(now()) @db.Timestamp(6)
+  influencerId   Int
+  influencer     Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Favorite {
+  id           Int        @id @default(autoincrement())
+  deletedAt    DateTime?  @db.Timestamp(6)
+  influencer   Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  influencerId Int
+  insertedAt   DateTime   @default(now()) @db.Timestamp(6)
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId       Int
+
+  @@unique([userId, influencerId])
+}
+
+model Influencer {
+  id                Int                 @id @default(autoincrement())
+  account           String
+  fullName          String
+  isVerified        Boolean
+  isBusiness        Boolean
+  socialMedia       String
+  entityType        String
+  followingCount    Int
+  mediaCount        Int
+  biography         String?
+  bornDate          DateTime?
+  category          String?
+  commentsAvg       Float?
+  email             String?
+  externalUrl       String?
+  followersCount    Int?
+  gender            String?
+  likesAvg          Float?
+  mediaSource       String?
+  occupation        String?
+  phone             String?
+  photoUrl          String?
+  profileUrl        String?
+  usertagsCount     Int?
+  InfluencerFacts   InfluencerFacts[]
+  Favorite          Favorite[]
+  Post              Post[]
+  TagsOnInfluencers TagsOnInfluencers[]
+}
+
+model Tag {
+  id                Int                 @id @default(autoincrement())
+  tag               String              @unique
+  TagsOnInfluencers TagsOnInfluencers[]
+}
+
+model TagsOnInfluencers {
+  id           Int        @id @default(autoincrement())
+  influencerId Int
+  influencers  Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade)
+  tagId        Int
+  tags         Tag        @relation(fields: [tagId], references: [id])
+}
+
+model Organization {
+  id           Int      @id @default(autoincrement())
+  organization String
+  planId       Int?
+  processed    Boolean?
+  plan         Plan?    @relation(fields: [planId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Plan {
+  id             Int            @id @default(autoincrement())
+  plan           String
+  price          Float
+  maxBenchmarks  Int            @default(1)
+  maxBrands      Int            @default(10)
+  maxSource      Int            @default(2)
+  hasInfluencers Boolean        @default(false)
+  Organization   Organization[]
+  Payment        Payment[]
+}
+
+model Post {
+  id            Int        @id @default(autoincrement())
+  photoUrl      String?
+  description   String?
+  influencerId  Int
+  viewsCount    Int?
+  likesCount    Int?
+  commentsCount Int?
+  influencer    Influencer @relation(fields: [influencerId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Report {
+  id          Int       @id @default(autoincrement())
+  benchmarkId Int
+  url         String
+  insertedAt  DateTime  @default(now()) @db.Timestamp(6)
+  benchmark   Benchmark @relation(fields: [benchmarkId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  firebaseId String
+  email      String      @unique
+  options    Json?
+  Favorite   Favorite[]
+  Event      Event[]
+  Payment    Payment[]
+  Benchmark  Benchmark[]
+}
+
+enum PaymentStatus {
+  pending
+  fulfilled
+}
+
+model Payment {
+  id             Int           @id @default(autoincrement())
+  transbankToken String        @unique
+  status         PaymentStatus @default(pending)
+  userId         Int
+  planId         Int
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  insertedAt     DateTime      @default(now()) @db.Timestamp(6)
+  plans          Plan          @relation(fields: [planId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Event {
+  id         Int      @id @default(autoincrement())
+  event      events?
+  meta       Json?
+  userId     Int?
+  insertedAt DateTime @default(now()) @db.Timestamp(6)
+  user       User?    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+enum DataSourceType {
+  ecommerce
+  socialnetwork
+}
+
+enum events {
+  influencer_favorited  @map("influencer.favorited")
+  profile_accessed      @map("profile.accessed")
+  tag_searched          @map("tag.searched")
+  filter_applied        @map("filter.applied")
+}

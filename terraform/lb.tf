@@ -1,5 +1,5 @@
 resource "aws_lb" "loadbalancer" {
-  name               = "${var.project}-loadbalancer"
+  name               = "${var.project}-${var.environment}-loadbalancer"
   internal           = false
   load_balancer_type = "application"
   subnets            = module.vpc.public_subnets

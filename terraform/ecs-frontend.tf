@@ -1,5 +1,5 @@
 resource "aws_ecs_task_definition" "frontend" {
-  family                   = "${var.project}-frontend-family"
+  family                   = "${var.project}-${var.environment}-frontend-family"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 1024
@@ -40,7 +40,7 @@ resource "aws_ecs_task_definition" "frontend" {
 }
 
 resource "aws_ecs_service" "frontend" {
-  name            = "${var.project}-frontend"
+  name            = "${var.project}-${var.environment}-frontend"
   cluster         = aws_ecs_cluster.main.id
   task_definition = aws_ecs_task_definition.frontend.arn
   desired_count   = 1
