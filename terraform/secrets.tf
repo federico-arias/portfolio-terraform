@@ -1,5 +1,5 @@
 resource "aws_secretsmanager_secret" "db_password" {
-  name = "${var.project}-rds-password"
+  name = "${var.project}-${var.environment}-rds-password"
 }
 
 resource "aws_secretsmanager_secret_version" "db_password" {

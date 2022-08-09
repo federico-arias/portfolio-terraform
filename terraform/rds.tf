@@ -3,7 +3,7 @@ locals {
 }
 
 resource "aws_db_subnet_group" "main_db" {
-  name       = "${var.project}-db-subnet"
+  name       = "${var.project}-${var.environment}-db-subnet"
   subnet_ids = module.vpc.private_subnets
 
 }
@@ -24,7 +24,7 @@ resource "random_password" "database" {
 
 
 resource "aws_security_group" "main_db" {
-  name   = var.project
+  name   = "${var.project}-${var.environment}"
   vpc_id = module.vpc.vpc_id
 
   ingress {
@@ -44,7 +44,7 @@ resource "aws_security_group" "main_db" {
 }
 
 resource "aws_db_parameter_group" "main_db" {
-  name   = var.project
+  name   = "${var.project}-${var.environment}"
   family = "postgres12"
 
   parameter {
@@ -54,7 +54,7 @@ resource "aws_db_parameter_group" "main_db" {
 }
 
 resource "aws_db_instance" "main" {
-  identifier             = "${var.project}-main"
+  identifier             = "${var.project}-${var.environment}-db"
   instance_class         = "db.t3.micro"
   allocated_storage      = 5
   engine                 = "postgres"

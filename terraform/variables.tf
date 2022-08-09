@@ -17,11 +17,6 @@ variable "aws_profile" {
   description = "AWS profile to use for credentials"
 }
 
-variable "api_path" {
-  type        = string
-  description = "API path"
-  default     = "/api/v1"
-}
 
 variable "environment" {
   type    = string
@@ -51,4 +46,10 @@ locals {
     Environment = var.environment
     Project = var.project
   }
+}
+
+variable "api_path" {
+  type        = string
+  description = "API path"
+  default     = "/api/v1"
 }

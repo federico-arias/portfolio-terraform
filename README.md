@@ -25,6 +25,8 @@ ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
 
 ```bash
 terragrunt import aws_ecr_repository.backend <name>
+terragrunt import aws_ecr_repository.backend <name>
+terragrunt import cloudflare_record.validation <zone-id>/<record-id>
 ```
 
 ## Terraform apply

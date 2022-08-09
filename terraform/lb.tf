@@ -58,7 +58,7 @@ resource "aws_lb_listener_rule" "frontend" {
 # ECS services point to these target groups.
 
 resource "aws_lb_target_group" "frontend" {
-  name        = "${var.project}-frontend-tg"
+  name        = "${var.project}-${var.environment}-frontend-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
@@ -78,7 +78,7 @@ resource "aws_lb_target_group" "frontend" {
 }
 
 resource "aws_lb_target_group" "backend" {
-  name        = "${var.project}-backend-tg"
+  name        = "${var.project}-${var.environment}-backend-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
@@ -100,7 +100,7 @@ resource "aws_lb_target_group" "backend" {
 }
 
 resource "aws_lb_target_group" "landing" {
-  name        = "${var.project}-landing-tg"
+  name        = "${var.project}-${var.environment}-landing-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
