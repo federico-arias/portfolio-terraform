@@ -8,12 +8,13 @@ database.
 
 ## Basic configuration parameters
 
-Modify the following variables in `variables.tf`:
+Modify the following variables in the `terragrunt.hcl` files:
 
 * `region`: The AWS region name.
 * `project`: The project name.
-* `api_path`: The path of the main API.
 * `aws_profile`: The name of the aws profile to use.
+* `domain`: The DNS domain.
+* `subdomain`: The DNS subdomain.
 
 Create a ssh key-pair to access the bastion host:
 
@@ -21,32 +22,11 @@ Create a ssh key-pair to access the bastion host:
 ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
 ```
 
-## Import shared resources
-
-```bash
-terragrunt import aws_ecr_repository.backend <name>
-terragrunt import aws_ecr_repository.backend <name>
-terragrunt import cloudflare_record.validation <zone-id>/<record-id>
-```
-
 ## Terraform apply
 
-Finally, apply Terraform and get the data for you CI/CD system:
-
 ```bash
-$ cd terragrunt/production && terragrunt apply
+for env in production staging common
+do
+    cd terragrunt/${env} && terragrunt apply && cd ..
+done
 ```
-
-# TODO
-
-* Create lambda to execute migration, set DATABASE_URL and execute
-
-```bash
-aws lambda invoke \
-    --function-name my-function \
-    --invocation-type Event \
-    --payload '{ "name": "Bob" }' \
-    response.json
-```
-
-https://github.com/prisma/prisma/issues/2980#issuecomment-665691866
