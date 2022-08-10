@@ -11,7 +11,7 @@ resource "aws_lb_listener" "loadbalancer_listener" {
   load_balancer_arn = aws_lb.loadbalancer.arn
   port              = "443"
   protocol          = "HTTPS"
-  certificate_arn   = aws_acm_certificate.cert.arn
+  certificate_arn   = data.terraform_remote_state.common.outputs.certificate_arn
   ssl_policy        = "ELBSecurityPolicy-2016-08"
 
   default_action {

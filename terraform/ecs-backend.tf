@@ -11,7 +11,7 @@ resource "aws_ecs_task_definition" "backend" {
 
   container_definitions = jsonencode([
     {
-      "image"       = "${aws_ecr_repository.backend.repository_url}:${var.backend_tag}"
+      "image"       = "${data.terraform_remote_state.common.outputs.backend_repo}:${var.backend_tag}"
       "cpu"         = 1024
       "memory"      = 2048
       "name"        = local.backend_container_name

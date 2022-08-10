@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "landing" {
 
   container_definitions = jsonencode([
     {
-      "image"       = "${aws_ecr_repository.landing.repository_url}:${var.landing_tag}"
+      "image"       = "${data.terraform_remote_state.common.outputs.landing_repo}:${var.landing_tag}"
       "cpu"         = 1024
       "memory"      = 2048
       "name"        = local.landing_container_name

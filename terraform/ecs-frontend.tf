@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "frontend" {
 
   container_definitions = jsonencode([
     {
-      "image"       = "${aws_ecr_repository.frontend.repository_url}:${var.frontend_tag}"
+      "image"       = "${data.terraform_remote_state.common.outputs.frontend_repo}:${var.frontend_tag}"
       "cpu"         = 1024
       "memory"      = 2048
       "name"        = local.frontend_container_name

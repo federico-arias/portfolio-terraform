@@ -1,3 +1,4 @@
+/*
 module "migrator" {
   source = "github.com/federico-arias/terraform-aws-lambda"
 
@@ -16,3 +17,4 @@ module "migrator" {
 
   depends_on = [aws_apigatewayv2_api.main_gateway]
 }
+*/
