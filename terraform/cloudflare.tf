@@ -8,6 +8,7 @@ resource "cloudflare_record" "www" {
   allow_overwrite = true
 }
 
+/*
 resource "cloudflare_record" "main" {
   count           = var.subdomain == "www" ? 1 : 0
   name            = "@"
@@ -17,3 +18,4 @@ resource "cloudflare_record" "main" {
   zone_id         = "7577fcd5eb9a1ca266cf9eaaf5f59c8a"
   allow_overwrite = true
 }
+*/
