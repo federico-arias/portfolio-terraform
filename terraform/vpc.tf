@@ -10,6 +10,7 @@ resource "aws_eip" "nat" {
 }
 */
 
+// See https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.77.0"
@@ -25,8 +26,8 @@ module "vpc" {
 
   enable_vpn_gateway = true
 
-  enable_nat_gateway = false
-  #single_nat_gateway     = true
+  enable_nat_gateway     = true
+  single_nat_gateway     = true
   one_nat_gateway_per_az = false
 
   create_igw = true

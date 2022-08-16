@@ -1,5 +1,5 @@
 terraform {
-  source = "../../common"
+  source = "../..//common"
 }
 
 include "shared" {

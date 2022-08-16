@@ -19,7 +19,7 @@ variable "aws_profile" {
 
 
 variable "environment" {
-  type    = string
+  type = string
 }
 
 variable "region" {
@@ -44,7 +44,7 @@ variable "landing_tag" {
 locals {
   default_tags = {
     Environment = var.environment
-    Project = var.project
+    Project     = var.project
   }
 }
 

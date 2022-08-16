@@ -25,8 +25,9 @@ ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
 ## Terraform apply
 
 ```bash
-for env in production staging common
+for env in app staging
 do
-    cd terragrunt/${env} && terragrunt apply && cd ..
+    cd terragrunt/${env} && terragrunt apply
+    cd ../..
 done
 ```
