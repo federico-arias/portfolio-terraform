@@ -4,7 +4,7 @@ terraform {
 
 locals {
   project = "komet"
-  region = "us-east-2"
+  region = "us-east-2" # region of backend
   aws_profile = "komet"
 }
 
@@ -27,7 +27,6 @@ EOF
 inputs = {
   account_id = "135541436944"
   aws_profile = local.aws_profile
-  region = local.region
   domain = "komet.social"
   project = local.project
 }

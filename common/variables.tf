@@ -1,4 +1,12 @@
-variable "domain" { }
-variable "region" {}
-variable "aws_profile" {}
-variable "project" {}
+variable "domain" {
+  type = string
+}
+variable "aws_region" {
+  type = string
+}
+variable "aws_profile" {
+  type = string
+}
+variable "project" {
+  type = string
+}

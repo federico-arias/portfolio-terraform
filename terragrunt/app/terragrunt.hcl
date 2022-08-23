@@ -5,6 +5,7 @@ include "common" {
 
 inputs = {
   environment = "app"
+  aws_region = "us-east-2"
   backend_tag = "v1.9.1"
   frontend_tag = "v1.9.1"
   landing_tag = "v1.0.2"

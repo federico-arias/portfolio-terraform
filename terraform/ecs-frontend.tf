@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "frontend" {
         "logDriver" = "awslogs"
         "options" = {
           "awslogs-group"         = var.project
-          "awslogs-region"        = var.region
+          "awslogs-region"        = var.aws_region
           "awslogs-create-group"  = "true"
           "awslogs-stream-prefix" = local.frontend_container_name
         }

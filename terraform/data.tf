@@ -4,7 +4,7 @@ data "terraform_remote_state" "common" {
   config = {
     bucket  = "${var.project}-terraform-state"
     key     = "common/terraform.tfstate"
-    region  = "${var.region}"
+    region  = "us-east-2" #"${var.common_state_aws_region}"
     profile = "${var.aws_profile}"
   }
 }

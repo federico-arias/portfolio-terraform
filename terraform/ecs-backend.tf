@@ -42,7 +42,7 @@ resource "aws_ecs_task_definition" "backend" {
         "logDriver" = "awslogs"
         "options" = {
           "awslogs-group"         = var.project
-          "awslogs-region"        = var.region
+          "awslogs-region"        = var.aws_region
           "awslogs-create-group"  = "true"
           "awslogs-stream-prefix" = local.backend_container_name
         }

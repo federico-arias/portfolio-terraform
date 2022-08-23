@@ -4,6 +4,7 @@ module "eks" {
   cluster_name    = "${var.project}-${var.environment}"
   cluster_version = "1.20"
   subnets         = module.vpc.private_subnets
+  enable_irsa     = true
 
   vpc_id = module.vpc.vpc_id
 

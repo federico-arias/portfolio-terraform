@@ -10,7 +10,7 @@ database.
 
 Modify the following variables in the `terragrunt.hcl` files:
 
-* `region`: The AWS region name.
+* `aws_region`: The AWS region name.
 * `project`: The project name.
 * `aws_profile`: The name of the aws profile to use.
 * `domain`: The DNS domain.

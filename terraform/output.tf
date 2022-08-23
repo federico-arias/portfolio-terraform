@@ -33,9 +33,6 @@ output "landing_tag" {
   value = var.landing_tag
 }
 
-output "region" {
-  value = var.region
-}
 
 output "project" {
   value = var.project
@@ -69,5 +66,5 @@ output "account_id" {
 
 
 output "api_gateway_url" {
-  value = "https://${aws_apigatewayv2_api.main_gateway.id}.execute-api.${var.region}.amazonaws.com/${var.project}-api-gateway-stage"
+  value = "https://${aws_apigatewayv2_api.main_gateway.id}.execute-api.${var.aws_region}.amazonaws.com/${var.project}-api-gateway-stage"
 }

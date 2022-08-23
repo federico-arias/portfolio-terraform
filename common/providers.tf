@@ -20,7 +20,7 @@ terraform {
 }
 
 provider "aws" {
-  region                  = var.region
+  region                  = var.aws_region
   shared_credentials_file = "/home/federico/.aws/credentials"
   profile                 = var.aws_profile
 

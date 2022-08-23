@@ -8,5 +8,6 @@ inputs = {
   backend_tag = "v1.9.1"
   frontend_tag = "v1.9.4"
   landing_tag = "v1.0.2"
+  aws_region = "us-west-2"
   subdomain = "staging"
 }

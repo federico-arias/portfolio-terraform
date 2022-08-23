@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "landing" {
         "logDriver" = "awslogs"
         "options" = {
           "awslogs-group"         = var.project
-          "awslogs-region"        = var.region
+          "awslogs-region"        = var.aws_region
           "awslogs-create-group"  = "true"
           "awslogs-stream-prefix" = local.landing_container_name
         }

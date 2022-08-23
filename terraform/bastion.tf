@@ -1,5 +1,5 @@
 resource "aws_instance" "bastion" {
-  ami                         = "ami-002068ed284fb165b"
+  ami                         = local.amis[var.aws_region]
   instance_type               = "t2.micro"
   associate_public_ip_address = true
   vpc_security_group_ids      = [aws_security_group.bastion-sg.id]
