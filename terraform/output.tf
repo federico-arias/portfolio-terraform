@@ -33,7 +33,6 @@ output "landing_tag" {
   value = var.landing_tag
 }
 
-
 output "project" {
   value = var.project
 }

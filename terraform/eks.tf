@@ -1,13 +1,14 @@
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
-  version         = "17.24.0"
+  version         = "~> 18.0"
   cluster_name    = "${var.project}-${var.environment}"
   cluster_version = "1.20"
-  subnets         = module.vpc.private_subnets
+  subnet_ids      = module.vpc.private_subnets
   enable_irsa     = true
 
   vpc_id = module.vpc.vpc_id
 
+  /*
   workers_group_defaults = {
     root_volume_type = "gp2"
   }
@@ -28,6 +29,7 @@ module "eks" {
       asg_desired_capacity = 1
     },
   ]
+  */
 }
 
 data "aws_eks_cluster" "cluster" {
