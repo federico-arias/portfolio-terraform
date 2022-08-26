@@ -1,3 +1,7 @@
+output "eks_load_balancer_controller_role" {
+  value = aws_iam_role.eks_lb_controller.arn
+}
+
 output "secret" {
   value = aws_iam_access_key.ecr_pusher.encrypted_secret
 }
