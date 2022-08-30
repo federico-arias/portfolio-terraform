@@ -1,3 +1,6 @@
+output "kms_sops_key" {
+  value = aws_kms_key.sops.arn
+}
 output "eks_load_balancer_controller_role" {
   value = aws_iam_role.eks_lb_controller.arn
 }
