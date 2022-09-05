@@ -1,35 +1,63 @@
+locals {
+  cluster_name = "${var.project}-${var.environment}-eks"
+}
+
 module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "~> 18.0"
-  cluster_name    = "${var.project}-${var.environment}"
+  cluster_name    = "${var.project}-${var.environment}-eks"
   cluster_version = "1.20"
   subnet_ids      = module.vpc.private_subnets
   enable_irsa     = true
 
   vpc_id = module.vpc.vpc_id
 
-  /*
-  workers_group_defaults = {
-    root_volume_type = "gp2"
+  eks_managed_node_group_defaults = {
+    ami_type = "AL2_x86_64"
+
+    attach_cluster_primary_security_group = true
+
+    # Disabling and using externally provided security groups
+    create_security_group = false
   }
 
-  worker_groups = [
-    {
-      name                = "worker-group-1"
-      instance_type       = "t2.small"
-      additional_userdata = "echo foo bar"
-      #additional_security_group_ids = [aws_security_group.worker_group_mgmt_one.id]
-      asg_desired_capacity = 2
-    },
-    {
-      name                = "worker-group-2"
-      instance_type       = "t2.medium"
-      additional_userdata = "echo foo bar"
-      #additional_security_group_ids = [aws_security_group.worker_group_mgmt_two.id]
-      asg_desired_capacity = 1
-    },
-  ]
-  */
+  eks_managed_node_groups = {
+    one = {
+      name = "node-group-1"
+
+      instance_types = ["t3.small"]
+
+      min_size     = 1
+      max_size     = 3
+      desired_size = 2
+
+      pre_bootstrap_user_data = <<-EOT
+      echo 'foo bar'
+      EOT
+
+      vpc_security_group_ids = [
+        aws_security_group.node_group_one.id
+      ]
+    }
+
+    two = {
+      name = "node-group-2"
+
+      instance_types = ["t3.medium"]
+
+      min_size     = 1
+      max_size     = 2
+      desired_size = 1
+
+      pre_bootstrap_user_data = <<-EOT
+      echo 'foo bar'
+      EOT
+
+      vpc_security_group_ids = [
+        aws_security_group.node_group_two.id
+      ]
+    }
+  }
 }
 
 data "aws_eks_cluster" "cluster" {
