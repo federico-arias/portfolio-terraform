@@ -31,3 +31,9 @@ do
     cd ../..
 done
 ```
+
+To access your cluster, do:
+
+```bash
+aws eks --region <aws-region> update-kubeconfig --name <cluster-arn>
+```

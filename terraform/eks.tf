@@ -6,7 +6,7 @@ module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "~> 18.0"
   cluster_name    = "${var.project}-${var.environment}-eks"
-  cluster_version = "1.20"
+  cluster_version = "1.21"
   subnet_ids      = module.vpc.private_subnets
   enable_irsa     = true
 

@@ -9,9 +9,9 @@ output "secret" {
   value = aws_iam_access_key.ecr_pusher.encrypted_secret
 }
 
-output "rds_hostname" {
-  description = "RDS instance hostname"
-  value       = aws_db_instance.main.address
+output "cluster_arn" {
+  description = "Cluster ARN"
+  value       = module.eks.cluster_arn
 }
 
 output "postgres_url" {
@@ -20,6 +20,7 @@ output "postgres_url" {
   sensitive   = true
 }
 
+/*
 locals {
   lb_url = "https://${aws_lb.loadbalancer.dns_name}"
 }
@@ -27,18 +28,7 @@ locals {
 output "alb_url" {
   value = local.lb_url
 }
-
-output "frontend_tag" {
-  value = var.frontend_tag
-}
-
-output "backend_tag" {
-  value = var.backend_tag
-}
-
-output "landing_tag" {
-  value = var.landing_tag
-}
+*/
 
 output "project" {
   value = var.project
