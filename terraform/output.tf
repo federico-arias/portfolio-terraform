@@ -5,3 +5,7 @@ output "cluster_name" {
 output "eks_loadbalancer_controler_role_arn" {
   value = aws_iam_role.eks_lb_controller.arn
 }
+
+output "sops_kms_key_arn" {
+  value = aws_kms_key.sops.arn
+}
