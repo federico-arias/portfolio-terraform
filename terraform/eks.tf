@@ -1,69 +1,106 @@
-locals {
-  cluster_name = "${var.project}-${var.environment}-eks"
-}
+# EKS Cluster
+resource "aws_eks_cluster" "this" {
+  name     = "${local.project}-cluster"
+  role_arn = aws_iam_role.cluster.arn
+  version  = "1.21"
 
-module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
-  version         = "~> 18.0"
-  cluster_name    = "${var.project}-${var.environment}-eks"
-  cluster_version = "1.21"
-  subnet_ids      = module.vpc.private_subnets
-  enable_irsa     = true
-
-  vpc_id = module.vpc.vpc_id
-
-  eks_managed_node_group_defaults = {
-    ami_type = "AL2_x86_64"
-
-    attach_cluster_primary_security_group = true
-
-    # Disabling and using externally provided security groups
-    create_security_group = false
+  vpc_config {
+    # security_group_ids      = [aws_security_group.eks_cluster.id, aws_security_group.eks_nodes.id]
+    subnet_ids              = flatten([aws_subnet.public[*].id, aws_subnet.private[*].id])
+    endpoint_private_access = true
+    endpoint_public_access  = true
+    public_access_cidrs     = ["0.0.0.0/0"]
   }
 
-  eks_managed_node_groups = {
-    one = {
-      name = "node-group-1"
+  depends_on = [
+    aws_iam_role_policy_attachment.cluster_AmazonEKSClusterPolicy
+  ]
+}
 
-      instance_types = ["t3.small"]
 
-      min_size     = 1
-      max_size     = 3
-      desired_size = 2
+# EKS Cluster IAM Role
+resource "aws_iam_role" "cluster" {
+  name = "${local.project}-Cluster-Role"
 
-      pre_bootstrap_user_data = <<-EOT
-      echo 'foo bar'
-      EOT
-
-      vpc_security_group_ids = [
-        aws_security_group.node_group_one.id
-      ]
+  assume_role_policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "eks.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
     }
+  ]
+}
+POLICY
+}
 
-    two = {
-      name = "node-group-2"
+resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.cluster.name
+}
 
-      instance_types = ["t3.medium"]
+# Attaches permission for aws-privateca-issuer
+# https://github.com/cert-manager/aws-privateca-issuer#configuration
+resource "aws_iam_policy" "ca_issuer" {
+  name        = "cluster_ca_issuer"
+  path        = "/"
+  description = "CA Issuer for ${var.project}-${var.environment} cluster"
 
-      min_size     = 1
-      max_size     = 2
-      desired_size = 1
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid = "awspcaissuer",
+        Action = [
+          "acm-pca:DescribeCertificateAuthority",
+          "acm-pca:GetCertificate",
+          "acm-pca:IssueCertificate"
+        ]
+        Effect   = "Allow"
+        Resource = data.terraform_remote_state.common.outputs.certificate_arn
+      },
+    ]
+  })
+}
 
-      pre_bootstrap_user_data = <<-EOT
-      echo 'foo bar'
-      EOT
+resource "aws_iam_role_policy_attachment" "ca_issuer" {
+  policy_arn = aws_iam_policy.ca_issuer.arn
+  role       = aws_iam_role.cluster.name
+}
 
-      vpc_security_group_ids = [
-        aws_security_group.node_group_two.id
-      ]
-    }
+# EKS Cluster Security Group
+resource "aws_security_group" "eks_cluster" {
+  name        = "${local.project}-cluster-sg"
+  description = "Cluster communication with worker nodes"
+  vpc_id      = aws_vpc.this.id
+
+  tags = {
+    Name = "${local.project}-cluster-sg"
   }
 }
 
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_id
+resource "aws_security_group_rule" "cluster_inbound" {
+  description              = "Allow worker nodes to communicate with the cluster API Server"
+  from_port                = 443
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.eks_cluster.id
+  source_security_group_id = aws_security_group.eks_nodes.id
+  to_port                  = 443
+  type                     = "ingress"
 }
 
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_id
+resource "aws_security_group_rule" "cluster_outbound" {
+  description              = "Allow cluster API Server to communicate with the worker nodes"
+  from_port                = 1024
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.eks_cluster.id
+  source_security_group_id = aws_security_group.eks_nodes.id
+  to_port                  = 65535
+  type                     = "egress"
 }

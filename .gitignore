@@ -1,4 +1,2 @@
 .terraform
-database-migrator.zip
-*/*/.terragrunt-cache
-*/node_modules
+.terragrunt-cache

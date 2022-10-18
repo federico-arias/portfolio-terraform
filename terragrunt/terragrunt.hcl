@@ -3,7 +3,7 @@ terraform {
 }
 
 locals {
-  project = "komet"
+  project = "kmt"
   region = "us-east-2" # region of backend
   aws_profile = "komet"
 }
@@ -14,7 +14,8 @@ generate "backend" {
   contents = <<EOF
 terraform {
   backend "s3" {
-    bucket         = "${local.project}-terraform-state"
+    #bucket         = "${local.project}-terraform-state"
+    bucket         = "komet-terraform-state"
     key            = "${path_relative_to_include()}/terraform.tfstate"
     region         = "${local.region}"
     encrypt        = true
