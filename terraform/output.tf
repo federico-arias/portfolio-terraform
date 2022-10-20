@@ -11,6 +11,6 @@ output "sops_kms_key_arn" {
 }
 
 output "database_connection_string" {
-  value = local.database_connection_string
+  value     = local.database_connection_string
   sensitive = true
 }

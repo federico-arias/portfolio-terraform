@@ -2,7 +2,7 @@
 resource "cloudflare_record" "www" {
   name  = var.subdomain
   type  = "CNAME"
-  value = "k8s-nlbsampl-nlbsampl-02258b43b9-ccd6e8e1a73ab013.elb.us-east-2.amazonaws.com"
+  value = var.aws_lb_url
   # aws_lb.loadbalancer.dns_name
   ttl             = 3600
   zone_id         = "7577fcd5eb9a1ca266cf9eaaf5f59c8a"
