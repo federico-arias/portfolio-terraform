@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "eks" {
 
   }
 }
-
+/*
 resource "aws_iam_role" "eks_lb_controller" {
   name               = "AmazonEKSLoadBalancerControllerRole"
   assume_role_policy = data.aws_iam_policy_document.eks.json
@@ -57,10 +57,20 @@ resource "aws_iam_policy" "eks_lb_controller" {
   name   = "AWSLoadBalancerControllerIAMPolicy"
   policy = file("aws_load_balancer_controller_policy.json")
 }
+*/
+
+data "aws_iam_role" "eks_lb_controller" {
+  name = "AmazonEKSLoadBalancerControllerRole"
+}
+data "aws_iam_policy" "eks_lb_controller" {
+  name = "AWSLoadBalancerControllerIAMPolicy"
+}
+
+
 
 resource "aws_iam_role_policy_attachment" "eks_lb" {
-  role       = aws_iam_role.eks_lb_controller.name
-  policy_arn = aws_iam_policy.eks_lb_controller.arn
+  role       = data.aws_iam_role.eks_lb_controller.name
+  policy_arn = data.aws_iam_policy.eks_lb_controller.arn
 }
 
 /*

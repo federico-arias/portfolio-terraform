@@ -57,7 +57,7 @@ resource "aws_db_instance" "main" {
   instance_class         = "db.t3.micro"
   allocated_storage      = 5
   engine                 = "postgres"
-  engine_version         = "12.8"
+  engine_version         = "12.11"
   username               = random_pet.database.id
   password               = random_password.database.result
   db_subnet_group_name   = aws_db_subnet_group.main_db.name

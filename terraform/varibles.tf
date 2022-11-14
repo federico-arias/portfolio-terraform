@@ -45,5 +45,4 @@ variable "subnet_cidr_bits" {
 
 variable "aws_lb_url" {
   type    = string
-  default = "k8s-nlbsampl-sampleap-3f6bb3f6f7-840091665.us-east-2.elb.amazonaws.com"
 }
