@@ -1,7 +1,6 @@
 # Introduction
 
-This creates a ECS cluster on Fargate with a backend on `/api` and a
-front end on `/app` using ELB. Additionaly, it creates an RDS Postgres
+This creates a Kubernetes cluster on EKS. Additionaly, it creates an RDS Postgres
 database.
 
 # Usage
@@ -25,15 +24,21 @@ ssh-keygen -t rsa -b 4096 -C "example@email.com" -f $HOME/.ssh/aws_bastion
 ## Terraform apply
 
 ```bash
-for env in app staging
+for env in common app staging
 do
-    cd terragrunt/${env} && terragrunt apply
+    cd terragrunt/${env} && terragrunt apply --force
     cd ../..
 done
 ```
 
-To access your cluster, do:
+Then, once you have created an Ingress rule in the cluster, come back
+and modify the `alb_url` parameter.
+
+To update the Kubernetes config for your cluster, do:
 
 ```bash
-aws eks --region <aws-region> update-kubeconfig --name <cluster-arn>
+aws eks \
+    --region $(terragrunt output --terragrunt-no-auto-init aws_region) \
+    update-kubeconfig \
+    --name $(terragrunt output --terragrunt-no-auto-init cluster_name)
 ```

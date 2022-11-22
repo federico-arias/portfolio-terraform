@@ -4,7 +4,7 @@ terraform {
 
 locals {
   project = "kmt"
-  region = "us-east-2" # region of backend
+  region = "us-east-2" # region of terraform backend
   aws_profile = "komet"
 }
 

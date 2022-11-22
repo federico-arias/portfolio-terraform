@@ -1,6 +1,5 @@
 /*
 data "aws_iam_policy_document" "eks" {
-  depends_on = [module.eks]
 
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]

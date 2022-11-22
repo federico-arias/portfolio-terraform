@@ -44,5 +44,6 @@ variable "subnet_cidr_bits" {
 }
 
 variable "aws_lb_url" {
+  description = "Configuration after the cluster is created to point DNS records to"
   type    = string
 }

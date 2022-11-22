@@ -8,8 +8,6 @@ data "tls_certificate" "this" {
   url = aws_eks_cluster.this.identity[0].oidc[0].issuer
 }
 
-
-
 resource "aws_iam_openid_connect_provider" "oidc_provider" {
   client_id_list = distinct(compact(concat(
     ["sts.amazonaws.com"],
@@ -47,30 +45,21 @@ data "aws_iam_policy_document" "eks" {
 
   }
 }
-/*
+
 resource "aws_iam_role" "eks_lb_controller" {
-  name               = "AmazonEKSLoadBalancerControllerRole"
+  name               = "AmazonEKSLoadBalancerControllerRole${title(var.project)}${title(var.environment)}"
   assume_role_policy = data.aws_iam_policy_document.eks.json
 }
 
 resource "aws_iam_policy" "eks_lb_controller" {
-  name   = "AWSLoadBalancerControllerIAMPolicy"
+  name   = "AWSLoadBalancerControllerIAMPolicy${title(var.project)}${title(var.environment)}"
   policy = file("aws_load_balancer_controller_policy.json")
 }
-*/
-
-data "aws_iam_role" "eks_lb_controller" {
-  name = "AmazonEKSLoadBalancerControllerRole"
-}
-data "aws_iam_policy" "eks_lb_controller" {
-  name = "AWSLoadBalancerControllerIAMPolicy"
-}
-
 
 
 resource "aws_iam_role_policy_attachment" "eks_lb" {
-  role       = data.aws_iam_role.eks_lb_controller.name
-  policy_arn = data.aws_iam_policy.eks_lb_controller.arn
+  role       = aws_iam_role.eks_lb_controller.name
+  policy_arn = aws_iam_policy.eks_lb_controller.arn
 }
 
 /*

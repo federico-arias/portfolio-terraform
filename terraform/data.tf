@@ -13,3 +13,11 @@ data "terraform_remote_state" "common" {
 data "aws_availability_zones" "available" {
   state = "available"
 }
+
+data "aws_iam_role" "cluster" {
+  name = "EKSClusterRole"
+}
+
+data "aws_iam_role" "node" {
+  name = "EKSNodeRole"
+}

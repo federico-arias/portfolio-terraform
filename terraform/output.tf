@@ -3,7 +3,7 @@ output "cluster_name" {
 }
 
 output "eks_loadbalancer_controler_role_arn" {
-  value = data.aws_iam_role.eks_lb_controller.arn
+  value = aws_iam_role.eks_lb_controller.arn
 }
 
 output "sops_kms_key_arn" {
@@ -13,4 +13,8 @@ output "sops_kms_key_arn" {
 output "database_connection_string" {
   value     = local.database_connection_string
   sensitive = true
+}
+
+output "aws_region" {
+  value = var.aws_region
 }
