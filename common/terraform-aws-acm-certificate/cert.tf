@@ -1,6 +1,6 @@
 # this should be validated only once
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "*.${var.domain}"
+  domain_name       = var.domain_name
   validation_method = "DNS"
 
   lifecycle {
@@ -20,4 +20,33 @@ resource "cloudflare_record" "validation" {
   name    = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_name
   type    = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_type
   value   = tolist(aws_acm_certificate.cert.domain_validation_options)[0].resource_record_value
+}
+
+
+terraform {
+
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 3.18.0"
+    }
+  }
+
+  required_version = "~> 1.0"
+}
+
+provider "aws" {
+  region                  = var.aws_region
+  shared_credentials_file = "/home/federico/.aws/credentials"
+  profile                 = "komet"
+
+}
+
+provider "cloudflare" {
+  email     = "contacto@komet.social"
+  api_token = "4XOBBHEDZC-mSFyX2jqT5fEQUI4BEdoY1lDdOCjk"
 }
